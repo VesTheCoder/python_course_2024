@@ -7,20 +7,20 @@ num_1 < 0 and print(f"{num_1}, great job!") or num_1 > 0 and print("Wrong, bette
 
 #Task 2
 #Написати скрипт, який перевіряє, чи введене користувачем цілочисельне значення менше 20 чи ні.
-num_2 = int(input("give me a number to tell you if it's smaller ar greater then 20 > "))
-num_2 < 20 and print("It is smaller then 20!") or num_2 > 20 and print("That's bigger then 20!") or num_2 == 20 and print("That's exactly 20!")
+num_2 = int(input("Give me a number to tell you if it's less or more then 20 > "))
+num_2 < 20 and print("It is less then 20!") or num_2 > 20 and print("That's more then 20!") or num_2 == 20 and print("That's exactly 20!")
 
 
 #Task 3
 #Написати скрипт, який перевіряє, чи введене користувачем цілочисельне значення дорівнює нулю чи ні.
 num_3 = int(input("Please input 0 (zero) or any other number > "))
-num_3 == 0 and print("Hey, that's a zero, great!") or num_3 != 0 and print("Man, that's not a zero, come on")
+not num_3 and print("Hey, that's a zero, great!") or num_3 and print("Man, that's not a zero, come on")
 
 
 #Task 4
 #Написати скрипт, який перевіряє, чи введене користувачем цілочисельне значення є парним чи непарним.
-num_4 = int(input("Give me any number to see if it's paired or unpaired > "))
-num_4 % 2 == 0 and print("This one is paired!") or num_4 % 2 != 0 and print("This one is unpaired!")
+num_4 = int(input("Give me any number to see if it's Even or Odd > "))
+num_4 % 2 == 0 and print("This one is Even!") or num_4 % 2 != 0 and print("This one is Odd!")
 
 
 #Task 5
@@ -37,14 +37,15 @@ print(f"I repeat: the biggest one of those is {num5 >= num6 and num5 >= num7 and
 #Task 6
 #Написати скрипт, який запитує користувача, чи він володіє посвідченням водія (yes або no). Якщо користувач відповідає "yes", виведи повідомлення "Ви можете керувати автомобілем". Якщо користувач відповідає "no", виведи повідомлення "Ви не можете керувати автомобілем".
 question = input("Do you have a driver licence? Answer 'yes' or 'no' > ")
-question == "yes" and print("You can drive the car!") or question == "no" and print("You can not drive the car!") or question != "no" and question != "yes" and print("you gave me the wrong answer u fool!")
-
+question == "yes" and print("You can drive the car!") or question == "no" and print("You can not drive the car!") \
+    or question != "no" and question != "yes" and print("you gave me the wrong answer u fool!")
 
 #Task 7
 #Написати скрипт, який запитує користувача про його вік і перевіряє, чи він відповідає критеріям для отримання прав на керування автомобілем. Критерії: користувач повинен бути старше 18 років.
 #Якщо користувач задовольняє критерії, виведи повідомлення "Ви можете отримати посвідчення водія". Якщо користувач не задовольняє критерії, виведи повідомлення "Ви не відповідаєте критеріям для отримання посвідчення водія".
 user_age = int(input("Input your age (as a number) > "))
-user_age >= 18 and print("You grown enough to drive any vihecle you want!") or user_age < 18 and user_age >=16 and print("You can drive only a bike, no cars for you!") or user_age < 16 and print("You can't get a driver licence for now, sad times")
+user_age >= 18 and print("You grown enough to drive any vihecle you want!") or user_age < 18 and user_age >=16 and print("You can drive only a bike, no cars for you!") \
+    or user_age < 16 and print("You can't get a driver licence for now, sad times")
 
 
 
