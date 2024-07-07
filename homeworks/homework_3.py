@@ -73,7 +73,7 @@ elif user_month == 2:
     else:
         print("it's 28 days in this month.")
 else:
-    print("it's 30 days in this month.")
+    print("it's 31 days in this month.")
 
 
 
