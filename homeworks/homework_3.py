@@ -64,7 +64,7 @@ else:
 user_month = int(input("if you want to know the amount of days on any month, please input the month number (1-12) > "))
 if user_month < 1 or user_month > 12:
     print("Sorry, the year has only 12 months, your number is bullshit!")
-elif user_month in [4, 6, 9, 11]:
+elif user_month in (4, 6, 9, 11):
     print("it's 30 days in this month.")
 elif user_month == 2:
     what_year = int(input("Amount of days in February depends on the year. What is the year? > "))
