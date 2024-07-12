@@ -13,4 +13,4 @@ elif money >= apple + tea:
 elif money >= tea:
     print("Buy the tea!")
 else:
-    print("Sorry, you're too poor today, try next time")
+    print("Sorry, you're too poor today, try next time.")
