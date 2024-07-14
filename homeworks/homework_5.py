@@ -157,3 +157,4 @@ else:
     for num_13_low in range(3, width_13+1, 2):
         space = (width_13 - num_13_low) // 2
         print("     " + " " * space + "*" * num_13_low)
+        
