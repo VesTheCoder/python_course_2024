@@ -132,8 +132,16 @@ print(f"Random list of numbers incoming \n{list_11} \nAnd it was reversed \n{lis
 
 #Task 12
 #За допомогою циклів вивести на екран усі прості числа від 1 до 100.
-###КАК ПОСЧИТАТЬ НЕ ЗНАЮ. ГУГЛИТЬ НЕ БУДУ, ПО ТОМУ ЧТО ТАК НЕ ИНТЕРЕСНО
-    
+import math
+last_num_12 = int(input("I'll show you all prime numbers from 1 to *any* (define and input here): "))
+list_12 = []
+num_12 = 2
+while num_12 <= last_num_12:
+    if ((math.factorial(num_12 - 1) + 1) % num_12) == 0:
+        list_12.append(num_12)
+    num_12 += 1
+print(f"All prime numbers from 1 to {last_num_12}:")
+print(*list_12, sep = ", ")   
 
 #Task 13
 #Виведіть на екран «пісочний годинник», максимальна ширина якого зчитується з клавіатури (число непарне).
