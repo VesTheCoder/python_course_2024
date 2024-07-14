@@ -141,7 +141,8 @@ while num_12 <= last_num_12:
         list_12.append(num_12)
     num_12 += 1
 print(f"All prime numbers from 1 to {last_num_12}:")
-print(*list_12, sep = ", ")   
+print(f"It's {len(list_12)} prime numbers in this range")
+print(*list_12, sep = ", ") 
 
 #Task 13
 #Виведіть на екран «пісочний годинник», максимальна ширина якого зчитується з клавіатури (число непарне).
