@@ -142,7 +142,20 @@ while num_12 <= last_num_12:
     num_12 += 1
 print(f"It's {len(list_12)} prime numbers in this range")
 print(f"All prime numbers from 1 to {last_num_12}:")
-print(*list_12, sep = ", ") 
+print(*list_12, sep = ", ")
+#Answer 2, no list
+import math
+last_num_12 = int(input("I'll show you all prime numbers from 1 to *any* (define and input here): "))
+amount_12 = 0
+num_12 = 2
+print(f"All prime numbers from 1 to {last_num_12}:")
+while num_12 <= last_num_12:
+    if ((math.factorial(num_12 - 1) + 1) % num_12) == 0:
+        amount_12 += 1
+        print(num_12, end = "  ")
+    num_12 += 1
+print()
+print(f"It's {amount_12} prime numbers in this range")
 
 #Task 13
 #Виведіть на екран «пісочний годинник», максимальна ширина якого зчитується з клавіатури (число непарне).
