@@ -145,15 +145,15 @@ print(f"All prime numbers from 1 to {last_num_12}:")
 print(*list_12, sep = ", ")
 #Answer 2, no list
 import math
-last_num_12 = int(input("I'll show you all prime numbers from 1 to *any* (define and input here): "))
+last_numm_12 = int(input("I'll show you all prime numbers from 1 to *any* (define and input here): "))
 amount_12 = 0
-num_12 = 2
-print(f"All prime numbers from 1 to {last_num_12}:")
-while num_12 <= last_num_12:
-    if ((math.factorial(num_12 - 1) + 1) % num_12) == 0:
+numm_12 = 2
+print(f"All prime numbers from 1 to {last_numm_12}:")
+while numm_12 <= last_numm_12:
+    if ((math.factorial(numm_12 - 1) + 1) % numm_12) == 0:
         amount_12 += 1
-        print(num_12, end = "  ")
-    num_12 += 1
+        print(numm_12, end = "  ")
+    numm_12 += 1
 print()
 print(f"It's {amount_12} prime numbers in this range")
 
