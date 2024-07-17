@@ -19,6 +19,9 @@ else:
 # Task 3
 # Напишіть скрипт, який обчислює суму всіх кодів символів рядка.
 #НЕ ПОНЯЛ ЗАДАНИЕ, НЕ ДОСТАТОЧНО ЗНАНИЙ
+user_text_3 = input("Input any text and I'll count the sum weight of all characters in it: ")
+sum_3 = sum(ord(character) for character in user_text_3)
+print(f"the answer is {sum_3}. \nShiiiiiet, that's a lot!")
 
 # Task 4
 # Виведіть на екран 10 рядків із значенням числа Pi. У першому рядку має бути 2 знаки після коми, у другому 3 і так далі.
