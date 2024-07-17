@@ -33,7 +33,7 @@ while num_3 <= 200:
 #Напишіть скрипт, який обчислює за допомогою циклу факторіал числа n (n вводиться з клавіатури).
 num_4 = int(input("Input natural number to count it's factorial: "))
 factorial_num_4 = 1
-for number_4 in range(1, num_4+1):
+for number_4 in range(2, num_4+1):
     factorial_num_4 *= number_4
 print(f"{num_4} factorial equals {factorial_num_4}")
 
@@ -70,7 +70,7 @@ else:
 numbers_7 = [0, 5, 2, 4, 7, 1, 3, 19]
 odd_numbers = 0
 for num_7 in numbers_7:
-    if num_7 % 2 != 0:
+    if num_7 % 2:
         odd_numbers += 1
 print(*numbers_7, sep = ", ")
 print(f"There are {odd_numbers} odd numbers in the given list, hehe")
@@ -170,4 +170,3 @@ else:
     for num_13_low in range(3, width_13+1, 2):
         space = (width_13 - num_13_low) // 2
         print("     " + " " * space + "*" * num_13_low)
-        
