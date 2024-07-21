@@ -67,10 +67,8 @@ while True:
     elif user_choice == "3":
         name = input("Input the desired contact name to get the phone number: ")
         name_corrected = name.strip().lower().replace(" ", "")
-        if name_corrected in dic_3:
-            print(f"{name}'s phone number is: {dic_3[name_corrected]}")
-        else:
-            print(f"{name} not found, try again.") 
+        res = f"{name}'s phone number is: {dic_3[name_corrected]}" if name_corrected in dic_3 else f"{name} not found, try again."
+        print(res)
     else:
         print("My pleasure to serve you, dumb fuck! Would happy to see you again.")
         break
@@ -94,13 +92,12 @@ while True:
         print("Goodbye, human! Have a good life!")
         break
     if user_choice == '1':
-        user_has = input("What currency do you have? (ex. USD): ").strip().lower()
+        user_curr_1 = input("What currency do you have? (ex. USD): ").strip().lower()
         user_amount = float(input("OK! What's the amount? Input here: "))
-        user_wants = input("What currency do you want to get? (ex. UAH): ").strip().lower()
-        if user_has in dic_4 and user_wants in dic_4:
-            convert_to_usd = user_amount / dic_4[user_has]
-            convert_final = convert_to_usd * dic_4[user_wants]
-            print(f"For {user_amount:.2f} {user_has} you will get {convert_final:.2f} {user_wants}")
+        user_curr_2 = input("What currency do you want to get? (ex. UAH): ").strip().lower()
+        if user_curr_1 in dic_4 and user_curr_2 in dic_4:
+            convert = user_amount / dic_4[user_curr_1] * dic_4[user_curr_2]
+            print(f"For {user_amount:.2f} {user_curr_1} you will get {convert:.2f} {user_curr_2}")
         else:
             print("Sorry, we don't have an exchange rate info for those currencies. Anything else?")   
     else:
