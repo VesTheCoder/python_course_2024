@@ -42,16 +42,34 @@ print("No, I'm lying, we're finished, that's enough.")
 
 # Task 5
 # Вводиться з клавіатури користувачем текст. Знайти в ньому найдовше слово та вивести його на екран.
+import string
+user_input_5 = input("Type in any text, I'll find the longest word: ").lower()
+for item in string.punctuation:
+    user_input_5 = user_input_5.replace(item, ' ')
+split_5 = user_input_5.split()
+max_word = split_5[0]
+for item in split_5:
+    if len(item) > len(max_word):
+        max_word = item
+print(f"The longest word is '{max_word}'.")
 
 # Task 6
-# Вовочка, сидячи на уроці, писав поспіль однакові слова (слово може складатися з однієї літери). Коли Марія Іванівна забрала у нього зошит, там був один рядок тексту. 
+# Вовочка писав поспіль однакові слова (слово може складатися з однієї літери). Коли Марія Іванівна забрала у нього зошит, там був один рядок тексту. 
 # Напишіть програму, яка визначить найкоротше слово з написаних Вовочкою. Наприклад:
-# aaaaaaa - Вовочка писав слово - "a"
-# ititititit - Вовочка писав слово - "it"
 # catcatcatcat - Вовочка писав слово - "cat"
+import string
+user_input_6 = input("Type the word or a letter several times without the space, Vovochka: ").lower()
+for item in string.punctuation:
+    user_input_6 = user_input_6.replace(item, "")
+length_6 = len(user_input_6)
+for item in range(1, length_6 + 1):
+    if length_6 % item == 0 and user_input_6[:item] * (length_6 // item) == user_input_6:
+        word_6 = user_input_6[:item]
+        break
+print(f"The word is {word_6}. Don't worry, Vovochka!")
 
 # Task 7
 # Напишіть скрипт для очищення тексту від HTML-тегів.
-# Також необхідно врахувати кілька особливостей:
-# - крім одинарних тегів є парні теги, наприклад <div> </div>, тобто. перший тег відкриває, а другий закриває.
-# - тег у собі може містити купу додаткової інформації. Наприклад <div id="rcnt" style="clear:both;position:relative;zoom:1">
+import re
+user_input_7 = input("Give me any text with HTML tags to remove all HTML tags: ")
+print(re.sub(r"\<[^>]*\>","", user_input_7))
