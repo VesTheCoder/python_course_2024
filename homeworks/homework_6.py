@@ -72,4 +72,4 @@ print(f"The word is {word_6}. Don't worry, Vovochka!")
 # Напишіть скрипт для очищення тексту від HTML-тегів.
 import re
 user_input_7 = input("Give me any text with HTML tags to remove all HTML tags: ")
-print(re.sub(r"\<[^>]*\>","", user_input_7))
+print(f"The text is: {re.sub(r"\<[^>]*\>","", user_input_7)}")
