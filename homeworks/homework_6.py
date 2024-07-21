@@ -1,27 +1,25 @@
 # Task 1
 # Напишіть скрипт, який порахує скільки літер «b» у введеному рядку тексту.
 text_1 = input("Type your text and the amount of 'b' letters would be counted: ")
-fold_1 = text_1.casefold()
-search_1 = fold_1.count("b")
-print(f"U used {search_1} letters 'b'. It's good those are unlimmited")
+search_1 = text_1.casefold().count("b")
+print(f"You used {search_1} letters 'b'. It's good those are unlimmited")
 
 # Task 2
 # Користувач вводить з клавіатури ім'я людини. Написати програму для перевірки введеного ім'я на валідність 
-# (мається на увазі, що, наприклад, в імені людини не може бути цифр, воно повинно починатися з великої літери, за якою повинні йти маленькі).
+# Задачу усложнил до цикла ввода пока имя не будет правильным.
 name_2 = input("Input your name correctly: ")
-while not (name_2[0].isupper() and name_2[1:].islower() and name_2.isalpha()):
-    print("That's not a correct spelling, please repeat your input.")
+while not name_2.istitle() and name_2.replace(" ", "").isalpha():
+    print("That's not a correct spelling (don't forget to start with a capital letter), please repeat your input.")
     name_2 = input("Input your name correctly: ")
 else:
-    print(f"That's right, your name is {name_2}, my pleasure to meet you!")
+    print(f"Now that's a valid name, my pleasure to meet you!")
 
 
 # Task 3
 # Напишіть скрипт, який обчислює суму всіх кодів символів рядка.
-#НЕ ПОНЯЛ ЗАДАНИЕ, НЕ ДОСТАТОЧНО ЗНАНИЙ
 user_text_3 = input("Input any text and I'll count the sum weight of all characters in it: ")
 sum_3 = sum(ord(character) for character in user_text_3)
-print(f"the answer is {sum_3}. \nShiiiiiet, that's a lot!")
+print(f"The answer is {sum_3}. \nShiiiiiet, that's a lot!")
 
 # Task 4
 # Виведіть на екран 10 рядків із значенням числа Pi. У першому рядку має бути 2 знаки після коми, у другому 3 і так далі.
@@ -42,10 +40,11 @@ print("No, I'm lying, we're finished, that's enough.")
 
 # Task 5
 # Вводиться з клавіатури користувачем текст. Знайти в ньому найдовше слово та вивести його на екран.
+# Добавил цикл замены пунктуационных знаков на всякий случай
 import string
 user_input_5 = input("Type in any text, I'll find the longest word: ").lower()
 for item in string.punctuation:
-    user_input_5 = user_input_5.replace(item, ' ')
+    user_input_5 = user_input_5.replace(item, "")
 split_5 = user_input_5.split()
 max_word = split_5[0]
 for item in split_5:
@@ -55,8 +54,7 @@ print(f"The longest word is '{max_word}'.")
 
 # Task 6
 # Вовочка писав поспіль однакові слова (слово може складатися з однієї літери). Коли Марія Іванівна забрала у нього зошит, там був один рядок тексту. 
-# Напишіть програму, яка визначить найкоротше слово з написаних Вовочкою. Наприклад:
-# catcatcatcat - Вовочка писав слово - "cat"
+# Напишіть програму, яка визначить найкоротше слово з написаних Вовочкою. Наприклад: catcatcatcat - Вовочка писав слово - "cat"
 import string
 user_input_6 = input("Type the word or a letter several times without the space, Vovochka: ").lower()
 for item in string.punctuation:
@@ -70,6 +68,7 @@ print(f"The word is {word_6}. Don't worry, Vovochka!")
 
 # Task 7
 # Напишіть скрипт для очищення тексту від HTML-тегів.
+# Нагуглил документацию по регулярным выражениям и разобрался в люгике синтаксиса.
 import re
 user_input_7 = input("Give me any text with HTML tags to remove all HTML tags: ")
 print(f"The text is: {re.sub(r"\<[^>]*\>","", user_input_7)}")
