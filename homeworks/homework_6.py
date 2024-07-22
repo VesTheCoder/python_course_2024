@@ -76,7 +76,7 @@ print(f"The text is: {re.sub(r"\<[^>]*\>","", user_input_7)}")
 # Task 7 РЕШЕНИЕ 2
 user_input_8 = input("Give me any text with HTML tags to remove all HTML tags: ")
 while "<" in user_input_8 and ">" in user_input_8:
-    open = user_input_8.find("<")
-    close = user_input_8.find(">")   
-    user_input_8 = user_input_8[:open] + user_input_8[close + 1:]
+    tags_open = user_input_8.find("<")
+    tags_close = user_input_8.find(">")   
+    user_input_8 = user_input_8[:tags_open] + user_input_8[tags_close + 1:]
 print(f"The text is: {user_input_8}")
