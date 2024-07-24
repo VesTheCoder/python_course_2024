@@ -52,7 +52,7 @@ print(*in_common_4, sep=' and ')
 # Task 5
 # Напишіть програму, яка повертає найдовше слово, яке міститься одночасно у двох рядках.
 print("Now I'll show you the longest common word from your two sentences")
-first_user_input_1 = input("Enter the first sentence: ").strip().casefold().split()
-second_user_input_2 = input("Enter the second sentence: ").strip().casefold().split()
-compare_5 = set(first_user_input_1).intersection(second_user_input_2)
+first_user_input_5 = input("Enter the first sentence: ").strip().casefold().split()
+second_user_input_5 = input("Enter the second sentence: ").strip().casefold().split()
+compare_5 = set(first_user_input_5).intersection(second_user_input_5)
 print(f"The longest common word is {max(compare_5, key=len)}")
