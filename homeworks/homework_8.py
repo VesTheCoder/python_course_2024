@@ -12,8 +12,15 @@ else:
 # Напишіть програму, яка приймає список елементів і повертає кількість унікальних елементів.
 import random
 list_2 = [random.randint(0, 20) for i in range(15)]
-print(f"Here's the list {list_2} \nThere are {len(set(list_2))} unique elements in this list")
-print(f"To be exact, those are: {set(list_2)}")
+first_set_2 = set()
+second_set_2 = set()
+for i in list_2:
+    if i in first_set_2:
+        second_set_2.add(i)
+    else:
+        first_set_2.add(i)
+print(f"Here's the list {list_2} \nThere are {len(first_set_2-second_set_2)} unique elements in this list")
+print(f"To be exact, those are: {first_set_2-second_set_2}")
 
 # Task 3
 # Напишіть програму, яка приймає словник і перевіряє, чи містяться в ньому унікальні значення.
