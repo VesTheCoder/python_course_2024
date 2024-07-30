@@ -56,6 +56,34 @@ print(f"The biggest palindrom would be {palindrom_3[2]}.\n A multiplication of {
 
 
 # Task 5
-# Напишіть функцію, яка переводить число, що означає кількість доларів і центів, в прописний формат. Наприклад:
-# > 123,34
-# > one hundred twenty three dollars thirty four cents
+# Напишіть функцію, яка переводить число, що означає кількість доларів і центів, в прописний формат.
+ONES = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine"}
+ELEVENS = {10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen"}
+TWENTIES = {20: "twenty", 30: "thirty", 40: "forty", 50: "fifty", 60: "sixty", 70: "seventy", 80: "eighty", 90: "ninety"}
+THOUSANDS = {1: "thousand", 2: "million", 3: "billion", 4: "trillion", 5: "quadrillion", 6: "quintillion", 7: "sextillion", 
+             8: "septillion", 9: "octillion", 10: "nonillion", 11: "decillion"}
+def func_spelling(part):
+    if part == 0:
+        return ""
+    if part < 10:
+        return ONES[part] + " "
+    if part < 20:
+        return ELEVENS[part] + " "
+    if part < 100:
+        return TWENTIES[part // 10 * 10]  + " " + ONES[part % 10] + " "
+    if part < 1000:
+        return ONES[part // 100] + " hundred " + func_spelling(part % 100)
+    for key, value in THOUSANDS.items():
+        if part < 1000 ** (key + 1):
+            return func_spelling(part // 1000 ** key) + value + " " + func_spelling(part % 1000 ** key)
+
+def func_dollars(*ints):
+    return (func_spelling(dollars) + ("dollar" if dollars == 1 else "dollars")).capitalize()
+
+def func_cents(*ints):
+    return " and " + func_spelling(cents) + ("cent" if cents == 1 else "cents") if cents else ""
+
+user_input = input("Input the amount of $$$ to know how to spell it correctly (ex. 145.10): ").strip().replace(",", ".").split(".")
+dollars = int(user_input[0])
+cents = int(user_input[1].ljust(2, "0")[:2]) if len(user_input) > 1 else 0
+print(f"This number is spelled as '{func_dollars(dollars) + func_cents(cents)}'")
