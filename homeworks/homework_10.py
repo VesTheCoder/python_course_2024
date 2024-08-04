@@ -43,16 +43,20 @@ def func_calculate(cut):
 
 def func_person(strings, person):
     '''
-    Counts the amount of purchaces and $$$ spent by person and returns those.
+    Counts categorized and total spend ($), and the amount of purchaces by person. Returns all three values.
     '''
     count = 0
     total_amount = 0 
+    by_category_solo = {}
     for string in strings:
         name, amount, category = func_cut_data(string)
         if name == person:
             count += 1
             total_amount += amount
-    return count, total_amount
+            if category not in by_category_solo:
+                by_category_solo[category] = 0
+            by_category_solo[category] += amount
+    return count, total_amount, by_category_solo
 
 def main():
     '''
@@ -63,10 +67,10 @@ def main():
         file_dat = 'homeworks\hw_10_test.txt'
         data = func_read(file_dat)
         by_category, by_person = func_calculate(data)
-        print(f'Great! \n\nTotal expenses by category:')
+        print(f'Great! \n\nTotal spend by category:')
         for category, total in by_category.items():
             print(f'{category.capitalize()}: ${total:.2f}')
-        print('\nTotal expenses by person:')
+        print('\nTotal spend by person:')
         for member, total in by_person.items():
             print(f'{member}: ${total:.2f}')
         while True:
@@ -74,8 +78,12 @@ def main():
             if person == 'Exit':
                 print(f'\nThank you and thank me! Bye!')
                 break
-            count, total_amount = func_person(data, person)
-            print(f'\n{person} made {count} purchases and spent ${total_amount:.2f}')          
+            count, total_amount, by_category_solo = func_person(data, person)
+            print(f'\n{person} made {count} purchases and spent ${total_amount:.2f} in total.')
+            print(f'\n{person} spent by category:')
+            for category, amount in by_category_solo.items():
+                print(f'{category.capitalize()}: ${amount:.2f}')
+
     else:
         print('Ok, just messing around? Get back when you fix your head!')
 
