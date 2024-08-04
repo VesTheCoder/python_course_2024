@@ -43,17 +43,72 @@ palindrom_3 = func_palindrom(user_num_3)
 print(f"The biggest palindrom would be {palindrom_3[2]}.\n A multiplication of {palindrom_3[0]} and {palindrom_3[1]}")
 
 # Task 4
-# Існують такі послідовності чисел:
-# 0,2,4,6,8,10,12
-# 1,4,7,10,13
-# 1,2,4,8,16,32
-# 1,3,9,27
-# 1,4,9,16,25
-# 1,8,27,64,125
-# Реалізуйте програму, яка виведе наступний член цієї послідовності (або подібної до них) на екран.
+# Реалізуйте програму, яка виведе наступний член послідовності на екран.
 # Послідовність користувач вводить з клавіатури у вигляді рядка. 
-# Наприклад, користувач вводить рядок 0,5,10,15,20,25 та відповіддю програми має бути число 30.
+def func_detect(seq):
+    """
+    Detects the type of sequence and goes to the fitting function.
+    """
+    if all(seq[i + 1] - seq[i] == seq[1] - seq[0] for i in range(1, len(seq)-1)):
+        return func_arithmetic(seq)    
+    if all(seq[i + 1] / seq[i] == seq[1] / seq[0] for i in range(1, len(seq)-1)):
+        return func_geometric(seq)
+    if all(round(seq[i] ** 0.5) ** 2 == seq[i] for i in range(1, len(seq))):
+        return func_square(seq)
+    if all(round(seq[i] ** (1/3)) ** 3 == seq[i] for i in range(1, len(seq))):
+        return func_cube(seq) 
+    if len(seq) >= 4 and seq[0] + seq[1] == seq[-1] + seq[-2]:
+        return func_recurring(seq)
+    return ("hella knows what, ANYWAY", seq[-1] + (seq[-1] - seq[-2]))
 
+def func_arithmetic(seq):
+    """
+    Detects the next element of the arithmetic sequence.
+    """
+    diff = seq[1] - seq[0]
+    return ("arithmetic", seq[-1] + diff)
+
+def func_geometric(seq):
+    """
+    Detects the next element of the geometric sequence.
+    """
+    diff = int(seq[1] / seq[0])
+    return ("geometric", seq[-1] * diff)
+
+def func_square(seq):
+    """
+    Detects the next element of the square sequence.
+    """
+    num = int(seq[-1]**0.5)
+    return ("square", (num + 1) ** 2)
+
+def func_cube(seq):
+    """
+    Detects the next element of the cube sequence.
+    """
+    num = int(seq[-1]**(1/3))
+    return ("cubic", (num + 1) ** 3)
+
+def func_recurring(seq):
+    """
+    Detects the next element of the recurring sequence.
+    """
+    length = len(seq)
+    for i in range(1, length // 2 + 1):
+        if seq[:i] == seq[i:2*i]:
+            return ("recurring", seq[length % i])
+
+def main():
+    user_input = input("Give me your sequense separated by comma (ex. 0,2,4,6): ").strip().replace(" ", "").split(",")
+    sequence = [int(x) for x in user_input]
+    if len(sequence) < 2:
+        print("Sorry not sorry, at least 2 elements are required. Bye!")
+    else:
+        next_element = func_detect(sequence)
+        print(f"Your sequence is {next_element[0]}! {next_element[1]} goes next. It's {', '.join(map(str, sequence))}, {next_element[1]}.")
+
+if __name__ == "__main__":
+    main()
 
 # Task 5
 # Напишіть функцію, яка переводить число, що означає кількість доларів і центів, в прописний формат.
