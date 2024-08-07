@@ -29,7 +29,7 @@ class Cart:
     def __str__(self):
         user_cart = "Here's your cart:\n"
         for product, quantity in self.user_products.items():
-            user_cart += f"{product} - {quantity} pce(s) \n"
+            user_cart += f"{product} - {quantity} pce(s)\n"
         user_cart += f"Total price: ${self.total_cost()}\nBuy or get lost."
         return user_cart
 
