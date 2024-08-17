@@ -271,7 +271,6 @@ print(f"{user_cart}But, You are getting an extra discount of {discount_info}! \n
 
 payment_method = input(f"What payment method do you want to use? (input 1, 2 or 3) \n1. Credit Card \n2. PayPal \n3. Bank Transfer\n")
 while payment_method not in ("1", "2", "3"):
-    LoggingMixin.log_error(f"User attempted to use an unexistent payment method.")
     payment_method = input(f"Sorry, wrong input. Please input 1, 2 or 3 \n1. Credit Card \n2. PayPal \n3. Bank Transfer\n")
 else:
     if payment_method == "1":
