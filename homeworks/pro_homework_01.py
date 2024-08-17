@@ -1,9 +1,70 @@
+import logging
 import random
+
+class InvalidPriceError(Exception):
+    """
+    If the price for a Product is <= 0, this error would be raised.
+    """
+    def __init__(self, price: int | float, exception: str):
+        super().__init__(exception)
+        self.price = price
+        self.exception = exception
+
+    def __str__(self):
+        return f"Price '{self.price}' is invalid. {self.exception}"
+
+class InvalidQuantityError(Exception):
+    """
+    If you would try to add less then 1 or "float" product amount to the Cart, this error would be raised.
+    """
+    def __init__(self, quantity: int, exception: str):
+        super().__init__(exception)
+        self.quantity = quantity
+        self.exception = exception
+
+    def __str__(self):
+        return f"Product amount must be an integer. Correct your input '{self.quantity}'."
+
+class LoggingMixin:
+    """
+    Service mixin class to write logs into file.
+    """
+    def __init__(self):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.DEBUG)
+        file_handler = logging.FileHandler(f"logs_{self.__class__.__name__}.log")
+        file_handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+
+    def log_debug(self, message: str):
+        self.logger.debug(message)
+
+    def log_info(self, message: str):
+        self.logger.info(message)
+
+    def log_warning(self, message: str):
+        self.logger.warning(message)
+
+    def log_error(self, message: str):
+        self.logger.error(message)
+
+    def log_critical(self, message: str):
+        self.logger.critical(message)
+
 class Product:
     """
     Class for adding products available in the store.
     """
     def __init__(self, title: str, price: int | float, description: str):
+        super().__init__()
+        if not isinstance(price, int | float):
+            self.log_info(f"Attempt of adding of a wrong product price to the store.")
+            raise TypeError(f"The product price must be a number, correct price for '{title}'.")
+        if price <= 0:
+            self.log_info(f"Attempt of adding of a wrong product price to the store.")
+            raise InvalidPriceError(f"The product price must be positive, correct your input '{price}' for '{title}'.")
         self.title = title
         self.price = price
         self.description = description
@@ -16,7 +77,7 @@ class Discount:
     Base class for discounts, has to be overridden in subclasses.
     """
     def apply(self):
-        pass
+        return NotImplementedError
 
 class Discount_Percent(Discount):
     """
@@ -26,24 +87,24 @@ class Discount_Percent(Discount):
         self.discount_percent = discount_percent
     
     def apply(self, price: int | float):
-        return price - (price / 100 * self.discount_percent), f"{self.discount_percent}%"
+        return price - (price / 100 * self.discount_percent)
 
 class Discount_Fixed(Discount):
     """
-    Class to count fixed discounts.
+    Class to count fixed $ discounts.
     """
     def __init__(self, discount_amount: int | float):
         self.discount_amount = discount_amount
     
     def apply(self, price: int | float):
-        return price - self.discount_amount, f"${self.discount_amount:.2f}"
+        return price - self.discount_amount
 
 class PaymentProcessor:
     """
     Base payment processor class, has to be overridden in subclasses.
     """
     def pay(self):
-        pass
+        return NotImplementedError
 
 class CC_Processor(PaymentProcessor):
     """
@@ -91,38 +152,64 @@ class DiscountMixin:
     """
     Service mixin class to apply discounts to user carts.
     """
-    def apply_discount(self, discount):
+    def apply_discount(self, discount: Discount):
         total_amount = self.total_cost()
         return discount.apply(total_amount)
 
-class Cart(DiscountMixin):
+class Cart(DiscountMixin, LoggingMixin):
     """
     Main interaction class where user adds products, gets product info, discount info, total cost and chooses the payment method.
     """
     def __init__(self, title="Temp"):
+        LoggingMixin.__init__(self)
         self.user_products = {}
         self.title = title
+        self.log_info(f"Cart '{title}' was created.")
 
     def add_to_cart(self, product: Product, quantity: int = 1):
         """
         Forms a dictionary with user products and quantities.
         """
-        if product in self.user_products:
-            self.user_products[product] += quantity
-        else:
-            self.user_products[product] = quantity
+        if not isinstance(quantity, int) or quantity < 1:
+            self.log_error(f"Attempt of adding of a wrong product amount to the cart.")  
+            raise InvalidQuantityError(f"Can't add less then 1 or half a product to the cart. Correct your input '{quantity}' for '{product.title}'.")          
+        if not isinstance(product, Product):
+            self.log_error(f"Attempt of adding of a product in a wrong format to the cart.")
+            raise TypeError(f"Product must be an instance of the Product class.")
+        self.user_products[product] = self.user_products.get(product, 0) + quantity
+        self.log_info(f"Product '{product.title}' - {quantity} pce(s) was added to the cart.")
 
     def total_cost(self):
         """
-        Calculates and returns a total cost of user cart.
+        Calculates and returns a base total cost of user cart.
         """
+        self.log_info(f"Total cost of the cart was calculated.")
         return sum(product.price * quantity for product, quantity in self.user_products.items())
+    
+    def apply_discount(self):
+        """
+        Applies a discount to the total cost of the cart, logs the discount, and returns the final price
+        with the discount info.
+        """
+        self.discount = random.choice([Discount_Percent(random.randint(1, 95)), Discount_Fixed(random.randint(10, 350))])
+        total_cost = self.total_cost()
+        final_price = self.discount.apply(total_cost)
+        
+        if isinstance(self.discount, Discount_Percent):
+            discount_info = f"{self.discount.discount_percent}%"
+        elif isinstance(self.discount, Discount_Fixed):
+            discount_info = f"${self.discount.discount_amount:.2f}"
+        
+        self.log_info(f"Discount of {discount_info} was applied. Final cart price: ${final_price:.2f}")
+        return final_price, discount_info
 
     def pay(self, payment_processor: PaymentProcessor):
         """
         Calls PaymentProcessor.pay() method to print a message with a payment info.
         """
-        return payment_processor.pay()
+        payment_process = payment_processor.pay()
+        self.log_info(f"User chose his payment method and is ready to pay.")
+        return payment_process
         
     def __str__(self):
         """
@@ -132,6 +219,7 @@ class Cart(DiscountMixin):
         for product, quantity in self.user_products.items():
             user_cart.append(f"{product} - {quantity} pce(s)\n")
         user_cart.append(f"Total cost: ${self.total_cost():.2f}\n")
+        self.log_info(f"User cart info was formed and the user was informed about it's content.")
         return "".join(user_cart)
 
 dic_products = {
@@ -141,28 +229,49 @@ dic_products = {
     "IPHONE 14 PRO": Product("IPHONE 14 PRO", 1400, "A bit old, but still small top-notch"),
     "IPHONE 15": Product("IPHONE 15", 1000, "Model for poor people"),
     "IPHONE 14": Product("IPHONE 14", 800, "Old model for very poor people"),
-    "IPHONE SE": Product("IPHONE SE", 700, "Cheap version for kids")
+    "IPHONE SE": Product("IPHONE SE", 700, "Cheap version for kids"),
 }
+
+try:
+    add_product_1 = Product("IDIOT PHONE", 696969, "Dafuq is that")
+    dic_products["IDIOT PHONE"] = add_product_1
+except (TypeError, InvalidPriceError) as exception:
+    print(exception)
 
 user_cart = Cart("Cart_1")
 print(f"WE SELL IPHONES!!!\n")
+
 final_choice = "bim bim bam bam"
 while final_choice != "n":
-    what_iphone = input("What iPhone do you want to buy? ").strip().upper()
-    if what_iphone in dic_products:
-        what_quantity = int(input("How many do you want?(1, 2, 3, etc.) ").strip())
-        user_cart.add_to_cart(dic_products[what_iphone], what_quantity)
-    else:
-        print("Sorry, we don't have this model, buy something better.")
-    final_choice = input("Do you want to add more to your cart? (y/n) ").lower().strip()
+    while True:
+        try:
+            what_iphone = input("What iPhone do you want to buy? ").strip().upper()
+            if what_iphone not in dic_products:
+                raise KeyError 
+            break  
+        except KeyError:
+            print("Sorry, we don't have this model, buy something better.") 
+            continue 
+
+    while True:
+        try: 
+            what_quantity = int(input("How many do you want? (1, 2, 3, etc.) ").strip())
+            if what_quantity < 1:
+                raise ValueError
+            user_cart.add_to_cart(dic_products[what_iphone], what_quantity)
+            break
+        except ValueError:
+            print("You can't buy less then one or half an iPhone, please repeat your input.")
+            continue   
+    final_choice = input("Great! Do you want to add more to your cart? (y/n) ").lower().strip()
 
 total_cost = user_cart.total_cost()
-user_cart.discount = random.choice([Discount_Percent(random.randint(1, 90)), Discount_Fixed(random.randint(10, 350))])
-final_price, discount_info = user_cart.apply_discount(user_cart.discount)
+final_price, discount_info = user_cart.apply_discount()
 print(f"{user_cart}But, You are getting an extra discount of {discount_info}! \nFinal total: ${final_price:.2f}")
 
 payment_method = input(f"What payment method do you want to use? (input 1, 2 or 3) \n1. Credit Card \n2. PayPal \n3. Bank Transfer\n")
 while payment_method not in ("1", "2", "3"):
+    LoggingMixin.log_error(f"User attempted to use an unexistent payment method.")
     payment_method = input(f"Sorry, wrong input. Please input 1, 2 or 3 \n1. Credit Card \n2. PayPal \n3. Bank Transfer\n")
 else:
     if payment_method == "1":
