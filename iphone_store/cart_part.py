@@ -35,13 +35,14 @@ class Cart(discount_part.DiscountMixin, logging_part.LoggingMixin):
         self.log_info(f"Total cost of the cart was calculated.")
         return sum(product.price * quantity for product, quantity in self.user_products.items())
     
-    def apply_discount(self):
+    def apply_discount(self, total_cost=None):
         """
         Applies a discount to the total cost of the cart, logs the discount, and returns the final price
         with the discount info.
         """
+        if total_cost is None:
+            total_cost = self.total_cost()
         self.discount = random.choice([discount_part.Discount_Percent(random.randint(1, 95)), discount_part.Discount_Fixed(random.randint(10, 350))])
-        total_cost = self.total_cost()
         final_price = self.discount.apply(total_cost)
         
         if isinstance(self.discount, discount_part.Discount_Percent):

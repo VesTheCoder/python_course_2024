@@ -30,7 +30,7 @@ dic_products = {
 }
 
 try:
-    add_product_1 = Product("IDIOT PHONE", 696969, "Dafuq is that")
+    add_product_1 = Product("IDIOT PHONE", 6969, "Dafuq is that")
     dic_products["IDIOT PHONE"] = add_product_1
 except (TypeError, exceptions_part.InvalidPriceError) as exception:
     print(exception)

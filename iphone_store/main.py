@@ -1,7 +1,4 @@
-import exceptions_part
-import logging_part
 import product_part
-import discount_part
 import payments_part
 import cart_part
 
@@ -34,7 +31,7 @@ if __name__ == "__main__":
         final_choice = input("Great! Do you want to add more to your cart? (y/n) ").lower().strip()
 
     total_cost = user_cart.total_cost()
-    final_price, discount_info = user_cart.apply_discount()
+    final_price, discount_info = user_cart.apply_discount(total_cost)
     print(f"{user_cart}But, You are getting an extra discount of {discount_info}! \nFinal total: ${final_price:.2f}")
 
     payment_method = input(f"What payment method do you want to use? (input 1, 2 or 3) \n1. Credit Card \n2. PayPal \n3. Bank Transfer\n")
