@@ -60,6 +60,59 @@ class Cart(discount_part.DiscountMixin, logging_part.LoggingMixin):
         payment_process = payment_processor.pay()
         self.log_info(f"User chose his payment method and is ready to pay.")
         return payment_process
+    
+    def __add__(self, other):
+        """
+        Combines the content of two carts using the `+` operator. 
+        Returns a new Cart containing products from both carts combined.
+        """
+        if not isinstance(other, Cart):
+            return NotImplemented
+        
+        combined_cart = Cart("Combined cart")
+        combined_cart.user_products = self.user_products.copy()
+
+        for product, quantity in other.user_products.items():
+            combined_cart.user_products[product] = combined_cart.user_products.get(product, 0) + quantity
+        
+        self.log_info(f"New cart '{combined_cart.title}' created by adding '{self.title}' and '{other.title}'.")
+        return combined_cart
+
+    def __iadd__(self, other):
+        """
+        Combines the content of two carts in-place using the `+=` operator.
+        Modifies the current Cart by adding products from another Cart.
+        """
+        if not isinstance(other, Cart):
+            return NotImplemented
+        
+        for product, quantity in other.user_products.items():
+            self.user_products[product] = self.user_products.get(product, 0) + quantity
+        
+        self.log_info(f"Cart '{self.title}' was updated by adding '{other.title}'.")
+        return self
+    
+    def __len__(self):
+        """
+        Returns the number of a separate products in the cart.
+        """
+        return len(self.user_products)
+
+    def __getitem__(self, index):
+        """
+        Enables indexed access to the cart's items and slicing.
+        """
+        if isinstance(index, int):
+            items = list(self.user_products.items())
+            if index < 0 or index >= len(items):
+                raise IndexError("Cart index out of range")
+            return items[index]
+            
+        elif isinstance(index, slice):
+            items = list(self.user_products.items())[index]
+            return "\n".join([f"{product.title}: {quantity} pce(s) - ${product.price:.2f}" for product, quantity in items])
+        else:
+            raise TypeError("Cart index must be int or slice")
         
     def __str__(self):
         """
