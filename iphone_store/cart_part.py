@@ -114,6 +114,25 @@ class Cart(discount_part.DiscountMixin, logging_part.LoggingMixin):
         else:
             raise TypeError("Cart index must be int or slice")
         
+    def __iter__(self):
+        """
+        Creates the iterator and returns the iterator object - the list of items in the cart.
+        """
+        self._iteration_index = 0
+        self._user_items = list(self.user_products.items())
+        return self
+
+    def __next__(self):
+        """
+        Returns the next item from the user cart. When all items are iterated, raises StopIteration.
+        """
+        if self._iteration_index < len(self._cart_items):
+            item = self._user_items[self._iteration_index]
+            self._iteration_index += 1
+            return item
+        else:
+            raise StopIteration
+        
     def __str__(self):
         """
         Forms a final content of the user cart info (without discount) and returns it in str format.
