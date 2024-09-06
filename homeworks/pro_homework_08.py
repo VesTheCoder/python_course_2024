@@ -36,7 +36,7 @@ def exception_decorator(func):
         try:
             return func(*args, **kwargs)
         except Exception as lol:
-            print (f"Gratz, you made a mistake and got the error: {lol}")
+            return f"Gratz, you made a mistake and got the error: {lol}"
     return wrapper
 
 @exception_decorator
@@ -92,6 +92,7 @@ print(test_func(69, 69, 69, 69))
 
 # Task 6
 # Напишіть декоратор, який обмежує кількість викликів функції.
+# Решение 1 - простое.
 def call_limiter(func):
     calls_amount = 0
     def wrapper(*args, **kwargs):
@@ -102,14 +103,35 @@ def call_limiter(func):
         else:
             raise Exception(f"Max {calls_amount} calls of '{func.__name__}' function, sorry!")
     return wrapper
+# Решение 2 - ограничиваем кол-во вызовов каждой функции отдельно.
+def call_limiter(func):
+    calls_amount = {}
+    def wrapper(*args, **kwargs):
+        if func.__name__ in calls_amount:
+            calls_amount[func.__name__] += 1
+        else: 
+            calls_amount[func.__name__] = 1
+        if calls_amount[func.__name__] < 3:
+            return func(*args, **kwargs)
+        else:
+            return f"Max {calls_amount[func.__name__] - 1} calls of '{func.__name__}' function, sorry!"
+    return wrapper
 
 @call_limiter
 def some_func(arg):
     return f"Hi, {arg}, my dude!"
 
+@call_limiter
+def some_func2(arg):
+    return f"Double-Hi, {arg}, my dude!"
+
 print(some_func("Oleg"))
 print(some_func("Oleh"))
 print(some_func("Vlad"))
+print(some_func2("Oleg"))
+print(some_func2("Oleh"))
+print(some_func2("Vlad"))
+
 
 # Task 7
 # Напишіть декоратор, який кешує результати обчислення функції і повертає їх з кешу при наступних викликах з тими самими аргументами.
