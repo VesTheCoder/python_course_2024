@@ -13,7 +13,7 @@ class Account:
 
     @property
     def balance(self):
-        return f"This client's balance is: {super().__getattribute__('__balance')}"
+        return super().__getattribute__('__balance')
     
     @balance.setter
     def change_balance(self, value):
