@@ -46,7 +46,7 @@ def email_address_validator(email: str) -> bool:
     -at (@)
     -dot (.) only in the domain part
     """
-    email_pattern = r"^\w+([-]?\w+)*@[a-zA-Z0-9-]+\.[a-zA-Z]+$"
+    email_pattern = r"^\w+([-]?\w+)*@[a-zA-Z0-9-]+\.[a-zA-Z]+?\.?[a-zA-Z]+$"
     if re.match(email_pattern, email):
         return True
     else:
