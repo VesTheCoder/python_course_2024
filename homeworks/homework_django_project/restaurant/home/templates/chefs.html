@@ -1,0 +1,45 @@
+<!-- ======= Chefs Section ======= -->
+<section id="chefs" class="chefs section-bg">
+
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-header">
+      <h2>Chefs</h2>
+      <p>Our <span>Professional</span> Chefs</p>
+    </div>
+
+    <div class="row gy-4">
+
+      {% for worker in worker %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+        <div class="chef-member">
+          <div class="member-img">
+            <img src="{{ worker.image.url }}" class="img-fluid" alt="">
+            <div class="social">
+              {% if worker.twitter %}
+              <a href="{{ worker.twitter }}"><i class="bi bi-twitter"></i></a>
+              {% endif %}
+              {% if worker.facebook %}
+              <a href="{{ worker.facebook }}"><i class="bi bi-facebook"></i></a>
+              {% endif %}
+              {% if worker.instagram %}
+              <a href="{{ worker.instagram }}"><i class="bi bi-instagram"></i></a>
+              {% endif %}
+              {% if worker.linkedin %}
+              <a href="{{ worker.linkedin }}"><i class="bi bi-linkedin"></i></a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="member-info">
+            <h4>{{ worker.name }}</h4>
+            <span>{{ worker.position }}</span>
+            <p>{{ worker.description }}</p>
+          </div>
+        </div>
+      </div><!-- End Chefs Member -->
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section><!-- End Chefs Section -->
